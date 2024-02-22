@@ -46,6 +46,7 @@ class DB:
         user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
+
         return user
 
     def find_user_by(self, **kwargs) -> User:
