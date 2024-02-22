@@ -1,35 +1,41 @@
 #!/usr/bin/env python3
 """
-Basic Flask ap
+Basic flask app
 """
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request, abort, redirect
+from http import HTTPStatus
 from auth import Auth
 
 app = Flask(__name__)
 AUTH = Auth()
 
 
-@app.route("/")
-def welcome():
-    return jsonify({"message": "Bienvenue"})
+@app.route('/', methods=['GET'])
+def hello_world() -> str:
+    """Base route for authentication service API"""
+    msg = {"message": "Bienvenue"}
+    return jsonify(msg)
 
 
-@app.route("/users", methods=["POST"])
-def register_user():
+@app.route('/users', methods=['POST'])
+def register_user() -> str:
+    """Registers a new user if it does not exist before"""
     try:
-        email = request.form.get("email")
-        password = request.form.get("password")
+        data = request.get_json()
+        email = data.get('email')
+        password = data.get('password')
+    except KeyError:
+        abort(HTTPStatus.BAD_REQUEST)
 
-        # Attempt to register the user
-        AUTH.register_user(email, password)
+    try:
+        user = AUTH.register_user(email, password)
+    except ValueError:
+        return jsonify({"message": "email already registered"}), \
+                HTTPStatus.BAD_REQUEST
 
-        # If successful, respond with a success message
-        return jsonify({"email": email, "message": "user created"}), 200
-
-    except Auth.UserAlreadyExistsError:
-        # If the user already exists, respond with an error message
-        return jsonify({"message": "email already registered"}), 400
+    msg = {"email": email, "message": "user created"}
+    return jsonify(msg)
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port="5000")
