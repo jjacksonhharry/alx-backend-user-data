@@ -28,6 +28,7 @@ def unauthorized(error):
     """
     return jsonify({"error": "Unauthorized"}), 401
 
+
 app.register_blueprint(app_views)
 
 
