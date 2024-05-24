@@ -11,7 +11,7 @@ class Auth:
     Class to manage the API authentication.
 
     This class provides methods for managing API authentication,
-    such asvchecking authorization headers and validating user
+    such as checking authorization headers and validating user
     credentials.
     """
 
