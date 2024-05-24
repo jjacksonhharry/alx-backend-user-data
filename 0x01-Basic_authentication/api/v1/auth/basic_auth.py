@@ -138,8 +138,25 @@ class BasicAuth(Auth):
         """
         if request is None:
             return None
+
         auth_header = request.headers.get('Authorization')
-        base64 = self.extract_base64_authorization_header(auth_header)
-        decoded = self.decode_base64_authorization_header(base64_auth_header)
-        email, password = self.extract_user_credentials(decoded_auth_header)
-        return self.user_object_from_credentials(email, password)
+
+        if not auth_header or not auth_header.startswith('Basic '):
+            return None
+
+        base64_auth_header = auth_header.split(' ')[1]
+
+        decoded_auth_header = self.decode_base64_authorization_header(
+                base64_auth_header
+                )
+
+        user_email, user_pwd = self.extract_user_credentials(
+                decoded_auth_header
+                )
+
+        if not user_email or not user_pwd:
+            return None
+
+        user = self.user_object_from_credentials(user_email, user_pwd)
+
+        return user
