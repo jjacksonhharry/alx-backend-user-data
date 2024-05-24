@@ -15,6 +15,12 @@ class Auth:
     credentials.
     """
 
+    def __init__(self):
+        """
+        Initializes the Auth class.
+        """
+        pass
+
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """ Determine if authentication is required """
         if path is None:
