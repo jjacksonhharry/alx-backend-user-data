@@ -14,7 +14,18 @@ class BasicAuth(Auth):
 
     This class inherits from Auth and provides methods to handle
     Basic Authentication headers.
+
+    BasicAuth class that provides Basic Authentication methods.
+
+    This class inherits from Auth and provides methods to handle
+    Basic Authentication headers.
     """
+
+    def __init__(self):
+        """
+        Initializes the Auth class.
+        """
+        pass
 
     def extract_base64_authorization_header(self,
                                             authorization_header: str
