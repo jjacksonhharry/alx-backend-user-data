@@ -7,7 +7,10 @@ from api.v1.auth.auth import Auth
 
 class BasicAuth(Auth):
     """
-    Basic Authentication class that inherits from Auth
+    BasicAuth class that provides Basic Authentication methods.
+
+    This class inherits from Auth and provides methods to handle
+    Basic Authentication headers.
     """
 
     def extract_base64_authorization_header(self,
