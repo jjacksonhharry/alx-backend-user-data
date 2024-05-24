@@ -8,8 +8,13 @@ from flask import request
 
 class Auth:
     """
-    class to manage the API authentication.
+    Class to manage the API authentication.
+
+    This class provides methods for managing API authentication,
+    such asvchecking authorization headers and validating user
+    credentials.
     """
+
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """ Determine if authentication is required """
         if path is None:
