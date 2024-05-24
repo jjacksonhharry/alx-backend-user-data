@@ -110,15 +110,21 @@ class BasicAuth(Auth):
         """
         if user_email is None or not isinstance(user_email, str):
             return None
+
         if user_pwd is None or not isinstance(user_pwd, str):
             return None
-        users = User.search({"email": user_email})
-        if not users:
+
+        user_list = User.search({"email": user_email})
+
+        if not user_list:
             return None
-        user = users[0]
-        if user.is_valid_password(user_pwd):
-            return user
-        return None
+
+        user = user_list[0]
+
+        if not user.is_valid_password(user_pwd):
+            return None
+
+        return user
 
     def current_user(self, request=None) -> Optional[User]:
         """
