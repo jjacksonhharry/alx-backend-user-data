@@ -81,18 +81,20 @@ class BasicAuth(Auth):
         Returns:
             tuple: A tuple containing the user email and password.
         """
-        if decoded_base64_authorization_header is None:
+        if decoded_base64_authorization_header is None or not isinstance(
+                decoded_base64_authorization_header,
+                str
+                ):
             return None, None
 
-        if not isinstance(decoded_base64_authorization_header, str):
+        if ':' not in decoded_base64_authorization_header:
             return None, None
 
-        if ":" not in decoded_base64_authorization_header:
-            return None, None
+        user_email, user_pwd = decoded_base64_authorization_header.rsplit(
+                ':', 1
+                )
 
-        email, password = decoded_base64_authorization_header.split(":", 1)
-
-        return email, password
+        return user_email, user_pwd
 
     def user_object_from_credentials(self,
                                      user_email: str,
